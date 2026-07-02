@@ -9,6 +9,6 @@ jobs:
     uses: ./.github/workflows/reusable-tailscale-ssh.yml
     with:
       runs-on: "blacksmith-2vcpu-ubuntu-2404"
-      image: "ghcr.io/gbraad-homelab/forgejo:latest"
-      hostname: "homelab-forgejo"
+      image: "ghcr.io/ducttape-lab/forgejo:latest"
+      hostname: "lab-forgejo"
     secrets: inherit

@@ -1,0 +1,43 @@
+name: build diskimage (cloud)
+run-name: building cloud image
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-24.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Checkout examples
+        uses: actions/checkout@v4
+
+      - name: virtualization support
+        continue-on-error: true
+        uses: ducttape-actions/setup-virtualization@v3
+
+      - name: Install containers tools
+        continue-on-error: true
+        uses: ducttape-actions/setup-container-tools@v1
+
+      - uses: lima-vm/lima-actions/setup@v1
+        id: lima-actions-setup
+
+      - name: Setup ducttape tool from releases
+        uses: ducttape-actions/ducttape-install-action@v1.2.9
+
+      - name: Build cloud image
+        run: |
+          ducttape build -t forgejo-cloud -f machines/Machinefile -d ghcr.io/ducttape-lab/server-base-cloud --root-pass password
+
+      - name: Push cloud image
+        run: |
+          ducttape push forgejo-cloud ghcr.io/ducttape-lab/forgejo-cloud
+        env:
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}

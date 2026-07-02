@@ -20,9 +20,9 @@ jobs:
 
       - name: Run podman build - base
         run: |
-          podman build -t ghcr.io/gbraad-homelab/forgejo-bootc:latest \
-            --build-arg=BASE_IMAGE="ghcr.io/gbraad-dotfiles/almalinux-bootc" \
-            --build-arg=BASE_VERSION="9" \
+          podman build -t ghcr.io/ducttape-lab/forgejo-bootc:latest \
+            --build-arg=BASE_IMAGE="ghcr.io/ducttape-lab/server-base-bootc" \
+            --build-arg=BASE_VERSION="latest" \
             -f containers/Containerfile .
 
       - name: Login to ghcr.io
@@ -31,4 +31,4 @@ jobs:
             -p ${{ secrets.GITHUB_TOKEN }}
       - name: Push image to ghcr.io - base
         run: |
-          podman push ghcr.io/gbraad-homelab/forgejo-bootc:latest
+          podman push ghcr.io/ducttape-lab/forgejo-bootc:latest
