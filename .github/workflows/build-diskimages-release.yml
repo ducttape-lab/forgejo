@@ -3,8 +3,9 @@ run-name: build diskimage (bootc)
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 */2 * *"
+
+#  schedule:
+#    - cron: "0 2 * * 0"
     
 env:
     IMAGE_NAME: ghcr.io/ducttape-lab/forgejo-bootc:latest
